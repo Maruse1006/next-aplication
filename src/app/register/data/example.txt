@@ -1,0 +1,17 @@
+import fs from 'fs';
+import path from 'path';
+
+export async function getStaticProps() {
+  // プロジェクトのルートからの相対パスでファイルパスを構築
+  const filePath = path.join(process.cwd(), 'data', 'example.txt');
+  
+  // ファイルの内容を読み込む
+  const content = fs.readFileSync(filePath, 'utf8');
+
+  // プロップスとしてページコンポーネントに渡すデータ
+  return {
+    props: {
+      content
+    }
+  };
+}
