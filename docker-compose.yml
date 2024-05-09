@@ -12,7 +12,7 @@ services:
       - db
     environment:   # 環境変数を追加
       DATABASE_URL: "mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE}"
-    # もしくは全ての環境変数を読み込むために env_file を使う
+
     env_file:
       - .env
 
