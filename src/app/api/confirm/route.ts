@@ -1,4 +1,3 @@
-// pages/api/register.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -21,23 +20,19 @@ export async function POST(req: NextRequest) {
 
   try {
     
-    const { name, email, password, sex: sexString } = await req.json();
+    const { name, email, password,phoneNumber, sex: sexString } = await req.json();
     //男性の場合：０、女性の場合、１
     const sexInt = sexString === 'male' ? 0 : 1;
-
-    console.log("Parsed JSON data:", { name, email, password, sexString });
-
     const bcrypt = (await import('bcryptjs')).default;
-  
     // パスワードをハッシュ化
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
     // ユーザーをデータベースに登録
-    const user = await prisma.usr.create({
+    const user = await prisma.user.create({
       data: {
         nickname: name,
         email:email,
+        phoneNumber:phoneNumber,
         password: hashedPassword,
         sex: sexInt,
       },
@@ -63,7 +58,7 @@ export async function POST(req: NextRequest) {
     }
 
     // エラーレスポンスを返す
-    return new NextResponse(JSON.stringify({ message: 'Registration failed', error: error.message }), {
+    return new NextResponse(JSON.stringify({ message: '', error: error.message }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',

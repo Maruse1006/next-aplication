@@ -9,8 +9,6 @@ COPY package.json ./
 # 依存関係をインストール
 RUN yarn install
 
-# アプリケーションのソースコードをコピー
-COPY . .
 
 # アプリケーションが使用するポートを開放
 EXPOSE 3000

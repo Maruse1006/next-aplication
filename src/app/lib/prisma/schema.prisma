@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique @db.VarChar(255)
+  password      String    @db.VarChar(16)
+  nickname      String?   @db.VarChar(50)
+  phoneNumber   String?   @db.VarChar(11)
+  sex           Int       @default(0)  // 0:未設定、1:男性、2:女性、3:その他
+  isDelete      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[] 
+}
+
+model Session {
+  id            Int       @id @default(autoincrement())
+  userId        Int       @unique
+  expires       DateTime
+  sessionToken  String    @unique
+  accessToken   String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+model MtSystem {
+  id           BigInt   @id
+  wordingValue String   @db.VarChar(255)
+  isDelete     Boolean  @default(false)  // 削除フラグ (0: 未削除、1: 削除)
+}
+
+model UserProfile {
+  id                      BigInt      @id
+  userId                  BigInt
+  height                  Int         @default(0)
+  weight                  Int         @default(0)
+  shoulderTrainingWeight  Decimal     @default(0) @db.Decimal(15, 3)
+  armTrainingWeight       Decimal     @default(0) @db.Decimal(15, 3)
+  chestTrainingWeight     Decimal     @default(0) @db.Decimal(15, 3)
+  backTrainingWeight      Decimal     @default(0) @db.Decimal(15, 3)
+  legTrainingWeight       Decimal     @default(0) @db.Decimal(15, 3)
+  isDelete                Boolean     @default(false)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+model TrainingMenu {
+  id            BigInt      @id
+  userId        BigInt
+  trainingName  String      @db.VarChar(255)
+  muscleKind    Int         @default(0)
+  isDelete      Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model TrainingHistory {
+  id                BigInt      @id
+  userId            BigInt
+  trainingId        BigInt
+  trainingNumber    Int
+  muscleKind        Int         @default(0)
+  weight            Decimal     @default(0) @db.Decimal(15, 3)
+  maxWeight         Decimal     @default(0) @db.Decimal(15, 3)
+  setCount          Int         @default(0)
+  isDelete          Boolean     @default(false)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model TrainingHistoryDetail {
+  id                  BigInt      @id
+  userId              BigInt
+  trainingHistoryId   BigInt
+  trainingNumber      Int
+  trainingDate        DateTime?
+  weight              Decimal     @default(0) @db.Decimal(15, 3)
+  count               Int         @default(0)
+  setNumber           Int         @default(0)
+  memo                String?     @db.VarChar(255)
+  isDelete            Boolean     @default(false)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+}
+
