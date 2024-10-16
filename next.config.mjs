@@ -1,19 +1,21 @@
-// next.config.mjs
-import path from 'path-browserify';
-
 const nextConfig = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     if (!isServer) {
-        config.resolve.fallback = {
-            fs: false,
-            path: false  
-          };
+      config.resolve.fallback = {
+        fs: false,
+        path: false  
+      };
     }
 
     config.module.rules.push({
       test: /\.html$/,
       use: ['html-loader']
     });
+
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300
+    };
 
     return config;
   },

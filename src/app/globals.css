@@ -2,32 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgb(var(--background-end-rgb))
+      )
+      rgb(var(--background-start-rgb));
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+  }
+
+.custom-splide .splide__arrow {
+  position: absolute;
+  top: 50%; 
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.custom-splide .splide__arrow--prev,
+.custom-splide .splide__arrow--next {
+  position: absolute;
+  top: 30%; 
+  background-color:white;
+}
+
+.custom-splide .splide__arrow--prev {
+  left: -2rem; 
+}
+
+.custom-splide .splide__arrow--next {
+  right: -2rem; 
+}
+
+@media (min-width: 768px) {
+  .custom-splide .splide__arrow--prev,
+  .custom-splide .splide__arrow--next {
+    top: 50%; 
   }
 }
+
+/* WeightManageChartで使用 */
+.chart-container {
+  height: 150px; /* デフォルトの高さ */
+}
+
+@media (min-width: 768px) { /* md:ブレイクポイントでの調整 */
+  .chart-container {
+    height: 245px;
+  }
+}
+
+@media (min-width: 1024px) { /* lg:ブレイクポイントでの調整 */
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* BarChartで使用 */
+.bar-chart-container {
+  height: 150px; /* デフォルトの高さ */
+  width:100%;
+}
+
+@media (min-width: 768px) { /* md:ブレイクポイントでの調整 */
+  .bar-chart-container {
+    height: 220px;
+  }
+}
+
+@media (min-width: 1024px) { /* lg:ブレイクポイントでの調整 */
+  .bar-chart-container {
+    height: 300px;
+  }
+}
+

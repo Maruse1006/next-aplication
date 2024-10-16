@@ -14,7 +14,7 @@ datasource db {
 model User {
   id            Int       @id @default(autoincrement())
   email         String    @unique @db.VarChar(255)
-  password      String    @db.VarChar(16)
+  password      String    @db.VarChar(100)
   nickname      String?   @db.VarChar(50)
   phoneNumber   String?   @db.VarChar(11)
   sex           Int       @default(0)  // 0:未設定、1:男性、2:女性、3:その他
@@ -22,6 +22,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
+  userMonsters  UserMonster[]  // 1人のユーザーが複数のモンスターを持つ（1対多）
 }
 
 model Session {
@@ -50,4 +51,33 @@ model UserProfile {
   isDelete                Boolean     @default(false)
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
+}
+
+model Monster {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  rarity    Rarity   // モンスターのレアリティ（ENUM型）
+  stocks    Int      @default(0)        // モンスターの在庫数
+  imageUrl  String   @db.VarChar(255)   // モンスター画像のURL
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userMonsters UserMonster[]  // 複数のUserMonsterに関連付け
+}
+
+model UserMonster {
+  id          Int      @id @default(autoincrement())
+  userId      Int      // 外部キー: UserモデルのID
+  monsterId   Int      // 外部キー: MonsterモデルのID
+  possessions Int      @default(1)  // ユーザーが持つモンスターの数
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])  // 多対1のリレーション
+  monster     Monster  @relation(fields: [monsterId], references: [id]) // 多対1のリレーション
+}
+
+// モンスターのレアリティ（ENUM型）
+enum Rarity {
+  N
+  SR
+  SSR
 }

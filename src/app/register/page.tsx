@@ -56,7 +56,7 @@ const Register = () => {
             colors={registrationColors}
           />
           <h1 className="text-center text-gray-700 font-bold mb-6 text-2xl">
-            会員登録
+            会員登録ページ
           </h1>
           <form onSubmit={onSubmit}>
             <div className="mb-4">
