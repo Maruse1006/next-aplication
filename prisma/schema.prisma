@@ -58,6 +58,7 @@ model Monster {
   name      String   @db.VarChar(50)
   rarity    Rarity   // モンスターのレアリティ（ENUM型）
   stocks    Int      @default(0)        // モンスターの在庫数
+  
   imageUrl  String   @db.VarChar(255)   // モンスター画像のURL
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
