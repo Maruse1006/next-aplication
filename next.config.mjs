@@ -13,7 +13,7 @@ const nextConfig = {
     });
 
     config.watchOptions = {
-      poll: 1000,
+      poll: 100,
       aggregateTimeout: 300
     };
 
